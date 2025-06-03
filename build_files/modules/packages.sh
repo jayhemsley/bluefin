@@ -10,14 +10,16 @@ log() {
 }
 
 COPR_REPOS=(
-	monkeygold/nautilus-open-any-terminal
-	secureblue/hardened_malloc
+	# secureblue/hardened_malloc
 	wojnilowicz/ungoogled-chromium
 )
 
 for repo in "${COPR_REPOS[@]}"; do
     dnf -y copr enable "$repo"
 done
+
+# Add Librewolf Repo
+curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
 
 log "Ensure https for each repo"
 for repo in /etc/yum.repos.d/*.repo; do
@@ -29,29 +31,19 @@ log "Remove default packages"
 REMOVE_DEFAULT_PACKAGES=(
 	adcli
 	adw-gtk3-theme
-	android-udev-rules
 	bash-color-prompt
 	bazaar
 	bcache-tools
 	bluefin-fastfetch
 	borgbackup
 	cryfs
-	epson-inkjet-printer-escpr
-	epson-inkjet-printer-escpr2
-	evtest
 	fastfetch
-	firewall-config
 	fedora-bookmarks
 	fedora-chromium-config
 	fedora-chromium-config-gnome
 	fedora-flathub-remote
 	fedora-third-party
 	fedora-workstation-repositories
-	foo2zjs
-	fuse
-	fuse-encfs
-	fzf
-	glow
 	gnome-extensions-app
 	gnome-shell-extension-appindicator
 	gnome-shell-extension-apps-menu
@@ -67,9 +59,6 @@ REMOVE_DEFAULT_PACKAGES=(
 	gnome-tour
 	gnome-tweaks
 	gnome-user-share
-	gstreamer1-plugins-ugly-free
-	gum
-	gvfs-nfs
 	htop
 	httpd
 	httpd-core
@@ -80,28 +69,17 @@ REMOVE_DEFAULT_PACKAGES=(
 	input-remapper
 	libsss_autofs
 	libvncserver
-	lshw
 	mod_dnssd
 	mod_http2
 	mod_lua
 	mozc
 	nautilus-gsconnect
-	nautilus-open-any-terminal
 	nerd-fonts
 	nvtop
-	oddjob-mkhomedir
 	opendyslexic-fonts
 	openrgb-udev-rules
 	openssh-askpass
 	oversteer-udev
-	passim
-	powerstat
-	powertop
-	printer-driver-brlaser
-	python3-pip
-	python3-pygit2
-	rclone
-	restic
 	samba
 	samba-dcerpc
 	samba-ldb-ldap-modules
@@ -128,9 +106,10 @@ LAYERED_PACKAGES=(
 	firefox
 	gnome-shell-extension-auto-move-windows
 	gnome-shell-extension-just-perfection
+	# hardened_malloc
+	librewolf
 	p7zip
 	p7zip-plugins
-	plymouth-plugin-script
 	solaar
 	ungoogled-chromium
 	usbguard
