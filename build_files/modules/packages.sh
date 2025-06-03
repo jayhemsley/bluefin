@@ -111,7 +111,7 @@ LAYERED_PACKAGES=(
 	p7zip
 	p7zip-plugins
 	solaar
-	ungoogled-chromium
+	# ungoogled-chromium
 	usbguard
 	usbguard-notifier
 	v4l-utils
