@@ -16,7 +16,8 @@ echo 'FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=
 rsync -av --no-times /ctx/repo_files/flatpaks /etc/ublue-os/flatpaks.list
 
 # Custom just commands
-rsync -av /ctx/repo_files/justfile /usr/share/ublue-os/just/99-custom.just
+cat /ctx/repo_files/just/*.just > /tmp/just/99-custom.just
+mv /tmp/99-custom.just /usr/share/ublue-os/just/
 chmod 644 /usr/share/ublue-os/just/99-custom.just
 echo 'import "/usr/share/ublue-os/just/99-custom.just"' | sudo tee -a /usr/share/ublue-os/justfile > /dev/null
 
