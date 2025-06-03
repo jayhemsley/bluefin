@@ -1,24 +1,32 @@
 #!/bin/bash
 
-set -ouex pipefail
+set -euo pipefail
+[[ -n "${SET_X:-}" ]] && set -x
 
-### Install packages
+trap '[[ ! $BASH_COMMAND =~ ^(echo|log) ]] && echo "+ $BASH_COMMAND"' DEBUG
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
+log() {
+  echo "=== $* ==="
+}
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+echo "${REMOTE_FONTS_URL}"
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+log "Starting custom image build process..."
 
-#### Example for enabling a System Unit File
+rsync -rvK --no-times /ctx/system_files/ /
 
-systemctl enable podman.socket
+# GSchema Overrides
+# By @bsherman (https://github.com/bsherman)
+# https://github.com/bsherman/bos/blob/main/desktop-changes.sh
+mkdir -p /tmp/ublue-schema-test &&
+    find /usr/share/glib-2.0/schemas/ -type f ! -name "*.gschema.override" -exec cp {} /tmp/ublue-schema-test/ \; &&
+    cp /usr/share/glib-2.0/schemas/*-bos-modifications.gschema.override /tmp/ublue-schema-test/ &&
+    echo "Running error test for bos gschema override. Aborting if failed." &&
+    glib-compile-schemas --strict /tmp/ublue-schema-test || exit 1 &&
+    echo "Compiling gschema to include our overrides" &&
+    glib-compile-schemas /usr/share/glib-2.0/schemas &>/dev/null
+
+/ctx/build_files/modules/security.sh
+/ctx/build_files/modules/packages.sh
+/ctx/build_files/modules/environment.sh
+/ctx/build_files/modules/final.sh
