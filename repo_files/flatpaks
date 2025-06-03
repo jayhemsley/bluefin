@@ -14,7 +14,6 @@ app/io.bassi.Amberol
 app/net.nokyan.Resources
 app/org.gnome.Calculator
 app/org.gnome.Calendar
-app/org.gnome.DejaDup
 app/org.gnome.Epiphany
 app/org.gnome.Logs
 app/org.gnome.Loupe

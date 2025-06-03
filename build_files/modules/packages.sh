@@ -10,7 +10,6 @@ log() {
 }
 
 COPR_REPOS=(
-	# secureblue/hardened_malloc
 	wojnilowicz/ungoogled-chromium
 )
 
@@ -20,6 +19,7 @@ done
 
 # Add Librewolf Repo
 curl -fsSL https://repo.librewolf.net/librewolf.repo |  tee /etc/yum.repos.d/librewolf.repo
+curl -fsSL https://copr.fedorainfracloud.org/coprs/secureblue/hardened_malloc/repo/fedora-42/secureblue-hardened_malloc-fedora-42.repo | tee /etc/yum.repos.d/secureblue-hardened_malloc-fedora-42.repo
 
 log "Ensure https for each repo"
 for repo in /etc/yum.repos.d/*.repo; do
@@ -106,7 +106,7 @@ LAYERED_PACKAGES=(
 	firefox
 	gnome-shell-extension-auto-move-windows
 	gnome-shell-extension-just-perfection
-	# hardened_malloc
+	hardened_malloc
 	librewolf
 	p7zip
 	p7zip-plugins

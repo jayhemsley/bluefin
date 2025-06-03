@@ -9,5 +9,5 @@ log() {
   echo "=== $* ==="
 }
 
-# echo "libhardened_malloc.so" | sudo tee -a /etc/ld.so.preload > /dev/null
+echo "libhardened_malloc.so" | tee -a /etc/ld.so.preload > /dev/null
 # chmod 444 /etc/ld.so.preload
