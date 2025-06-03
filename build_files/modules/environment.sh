@@ -48,6 +48,9 @@ FONTS_DIR="/usr/share/fonts"
 mkdir -p ${FONTS_DIR}/apple-color-emoji
 wget https://github.com/samuelngs/apple-emoji-linux/releases/latest/download/AppleColorEmoji.ttf -O ${FONTS_DIR}/apple-color-emoji/AppleColorEmoji.ttf
 
+# Remove Google Noto Emoji as it'll override everything
+rm -rf /usr/share/fonts/google-noto-color-emoji-fonts
+
 # Github Monaspace
 mkdir -p /tmp/fonts
 git clone https://github.com/githubnext/monaspace.git /tmp/fonts

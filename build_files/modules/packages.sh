@@ -67,7 +67,6 @@ REMOVE_DEFAULT_PACKAGES=(
 	gnome-tour
 	gnome-tweaks
 	gnome-user-share
-	google-noto-fonts-all
 	gstreamer1-plugins-ugly-free
 	gum
 	gvfs-nfs
