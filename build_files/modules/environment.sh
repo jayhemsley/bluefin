@@ -12,16 +12,16 @@ log() {
 # Enable Stem Darkening
 echo 'FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"' | sudo tee -a /etc/environment > /dev/null
 
-# Copy Flatpak
-rsync -av --no-times /ctx/repo_files/flatpaks /etc/ublue-os/flatpaks.list
+# # Copy Flatpak
+# rsync -av --no-times /ctx/repo_files/flatpaks /etc/ublue-os/flatpaks.list
 
-# Custom just commands
-mkdir -p /tmp/just
-cat /ctx/repo_files/just/*.just > /tmp/just/99-custom.just
-mv /tmp/just/99-custom.just /usr/share/ublue-os/just/
-chmod 644 /usr/share/ublue-os/just/99-custom.just
-echo 'import "/usr/share/ublue-os/just/99-custom.just"' | sudo tee -a /usr/share/ublue-os/justfile > /dev/null
-rm -rf /tmp/just
+# # Custom just commands
+# mkdir -p /tmp/just
+# cat /ctx/repo_files/just/*.just > /tmp/just/99-custom.just
+# mv /tmp/just/99-custom.just /usr/share/ublue-os/just/
+# chmod 644 /usr/share/ublue-os/just/99-custom.just
+# echo 'import "/usr/share/ublue-os/just/99-custom.just"' | sudo tee -a /usr/share/ublue-os/justfile > /dev/null
+# rm -rf /tmp/just
 
 # Remove stock desktop icons
 rm -rf /usr/share/applications/discourse.desktop
