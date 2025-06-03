@@ -10,4 +10,4 @@ log() {
 }
 
 echo "libhardened_malloc.so" | tee -a /etc/ld.so.preload > /dev/null
-# chmod 444 /etc/ld.so.preload
+chmod 444 /etc/ld.so.preload

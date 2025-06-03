@@ -1,5 +1,5 @@
 # Universal Blue Images: https://github.com/orgs/ublue-os/packages
-ARG BASE_IMAGE="ghcr.io/ublue-os/bluefin"
+ARG BASE_IMAGE="ghcr.io/ublue-os/silverblue-main"
 ARG TAG_VERSION="latest"
 
 # Allow build scripts to be referenced without being copied into the final image
