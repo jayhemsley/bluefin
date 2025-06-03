@@ -19,7 +19,7 @@ for repo in "${COPR_REPOS[@]}"; do
 done
 
 # Add Librewolf Repo
-curl -fsSL https://repo.librewolf.net/librewolf.repo | pkexec tee /etc/yum.repos.d/librewolf.repo
+curl -fsSL https://repo.librewolf.net/librewolf.repo |  tee /etc/yum.repos.d/librewolf.repo
 
 log "Ensure https for each repo"
 for repo in /etc/yum.repos.d/*.repo; do
