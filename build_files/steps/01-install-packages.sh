@@ -3,7 +3,7 @@ LAYERED_PACKAGES=(
 	btrfs-assistant
 	edk2-ovmf
 	fzf
-	gnome-shell-extension-auto-move-window
+	gnome-shell-extension-auto-move-windows
 	gnome-shell-extension-blur-my-shell
 	gnome-shell-extension-caffeine
 	gnome-shell-extension-dash-to-dock
