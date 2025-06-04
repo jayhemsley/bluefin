@@ -66,7 +66,7 @@ toggle-updates ACTION="prompt":
         TIMER="rpm-ostreed-automatic.timer"
     fi
     if [ "${OPTION,,}" == "enable" ]; then
-        sudo systemctl enable "$TIMER"
+        run0 systemctl enable "$TIMER"
     elif [ "${OPTION,,}" == "disable" ]; then
-        sudo systemctl disable "$TIMER"
+        run0 systemctl disable "$TIMER"
     fi

@@ -6,7 +6,7 @@ if [[ "$(rpm -E %fedora)" -ge "42" ]]; then
     sed -i 's|uupd|& --disable-module-distrobox|' /usr/lib/systemd/system/uupd.service
 fi
 
-systemctl mask --now rpm-ostree-countme.timer
+systemctl mask rpm-ostree-countme.timer
 
 if systemctl cat -- uupd.timer &> /dev/null; then
     systemctl enable uupd.timer
