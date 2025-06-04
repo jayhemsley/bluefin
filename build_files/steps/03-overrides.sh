@@ -4,13 +4,13 @@
 
 log "Generate default schemas"
 
-mkdir -p /tmp/ublue-schema-test &&
-	find /usr/share/glib-2.0/schemas/ -type f ! -name "*.gschema.override" -exec cp {} /tmp/ublue-schema-test/ \; &&
-	cp /usr/share/glib-2.0/schemas/*-secureblue.gschema.override /tmp/ublue-schema-test/ &&
-	echo "Running error test for bos gschema override. Aborting if failed." &&
-	glib-compile-schemas --strict /tmp/ublue-schema-test || exit 1 &&
-	echo "Compiling gschema to include our overrides" &&
-	glib-compile-schemas /usr/share/glib-2.0/schemas &>/dev/null
+mkdir -p /tmp/bluefin-schema-test
+find /usr/share/glib-2.0/schemas/ -type f ! -name "*.gschema.override" -exec cp {} /tmp/bluefin-schema-test/ \;
+cp /usr/share/glib-2.0/schemas/*-secureblue.gschema.override /tmp/bluefin-schema-test/
+log "Running error test for gschema overrides. Aborting if failed."
+glib-compile-schemas --strict /tmp/bluefin-schema-test
+log "Compiling gschema to include our overrides"
+glib-compile-schemas /usr/share/glib-2.0/schemas &>/dev/null
 
 log "Remove avif thumbnailer, as HEIF thumbnailer already covers it"
 rm /usr/share/thumbnailers/avif.thumbnailer

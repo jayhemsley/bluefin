@@ -1,6 +1,3 @@
-# Enable Stem Darkening
-echo 'FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"' | tee -a /etc/environment >/dev/null
-
 log "Install WhiteSur icons and cursors systemwide"
 
 mkdir -p /tmp/WhiteSur-icons
@@ -16,7 +13,7 @@ rm -rf /tmp/WhiteSur-icons
 
 log "Install adw-gtk3 to skel"
 
-VER=$(basename $(curl -Ls -o /dev/null -w %{url_effective} https://github.com/lassekongo83/adw-gtk3/releases/latest)) && curl -fLs --create-dirs https://github.com/lassekongo83/adw-gtk3/releases/download/${VER}/adw-gtk3${VER}.tar.xz -o /tmp/adw-gtk3.tar.gz
+VER=$(basename $(curl --retry 3 -Ls -o /dev/null -w %{url_effective} https://github.com/lassekongo83/adw-gtk3/releases/latest)) && curl --retry 3 -fLs --create-dirs https://github.com/lassekongo83/adw-gtk3/releases/download/${VER}/adw-gtk3${VER}.tar.xz -o /tmp/adw-gtk3.tar.gz
 mkdir -p /etc/skel/.local/share/themes/ && tar -xf /tmp/adw-gtk3.tar.gz -C /etc/skel/.local/share/themes/
 rm /tmp/adw-gtk3.tar.gz
 
@@ -25,17 +22,19 @@ log "Install systemwide fonts..."
 FONTS_DIR="/usr/share/fonts"
 
 mkdir -p ${FONTS_DIR}/apple-color-emoji
-wget https://github.com/samuelngs/apple-emoji-linux/releases/latest/download/AppleColorEmoji.ttf -O ${FONTS_DIR}/apple-color-emoji/AppleColorEmoji.ttf
+curl --retry 3 -Lo ${FONTS_DIR}/apple-color-emoji/AppleColorEmoji.ttf "https://github.com/samuelngs/apple-emoji-linux/releases/latest/download/AppleColorEmoji.ttf"
 
 rm -rf /usr/share/fonts/google-noto-color-emoji-fonts
 
-mkdir -p /tmp/fonts
-git clone https://github.com/githubnext/monaspace.git /tmp/fonts
-mkdir -p ${FONTS_DIR}/monaspace
-cp -r /tmp/fonts/fonts/otf/* ${FONTS_DIR}/monaspace
-rm -rf /tmp/fonts
+DOWNLOAD_URL=$(curl --retry 3 https://api.github.com/repos/githubnext/monaspace/releases/latest | jq -r '.assets[] | select(.name| test(".*.zip$")).browser_download_url')
+curl --retry 3 -Lo /tmp/monaspace-font.zip "$DOWNLOAD_URL"
 
-wget -O ${FONTS_DIR}/fonts.tar.xz https://linux.hemsley.dev/019733d3-970c-7168-978d-523401ccbe3a-fonts.tar.xz
+unzip -qo /tmp/monaspace-font.zip -d /tmp/monaspace-font
+mkdir -p /usr/share/fonts/monaspace
+mv /tmp/monaspace-font/monaspace-v*/fonts/otf/* /usr/share/fonts/monaspace/
+rm -rf /tmp/monaspace-font*
+
+curl --retry 3 -Lo ${FONTS_DIR}/fonts.tar.xz "https://linux.hemsley.dev/019733d3-970c-7168-978d-523401ccbe3a-fonts.tar.xz"
 tar -xvJf ${FONTS_DIR}/fonts.tar.xz -C ${FONTS_DIR}/
 rm ${FONTS_DIR}/fonts.tar.xz
 

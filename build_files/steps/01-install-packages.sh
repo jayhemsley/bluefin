@@ -3,6 +3,11 @@ LAYERED_PACKAGES=(
 	btrfs-assistant
 	edk2-ovmf
 	fzf
+	gnome-shell-extension-auto-move-window
+	gnome-shell-extension-blur-my-shell
+	gnome-shell-extension-caffeine
+	gnome-shell-extension-dash-to-dock
+	gnome-shell-extension-just-perfection
 	hplip
 	ifuse
 	kcli
@@ -37,8 +42,11 @@ LAYERED_PACKAGES=(
 	qemu-user-static
 	restic
 	smartmontools
+	solaar
 	solaar-udev
 	tmux
+	ublue-polkit-rules
+	uupd
 	v4l-utils
 	virt-install
 	virt-manager
@@ -48,6 +56,8 @@ LAYERED_PACKAGES=(
 )
 
 log "Adding COPRs and installing layered packages..."
+
+# bluefin (for uupd)
 
 # kcli
 dnf -y copr enable karmab/kcli

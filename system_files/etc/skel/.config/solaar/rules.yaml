@@ -1,0 +1,17 @@
+%YAML 1.3
+---
+- MouseGesture: Mouse Up
+- KeyPress:
+    - [Super_L, a]
+    - depress
+- KeyPress:
+    - [Super_L, a]
+    - release
+---
+- MouseGesture: []
+- KeyPress:
+    - Super_L
+    - depress
+- KeyPress:
+    - Super_L
+    - release

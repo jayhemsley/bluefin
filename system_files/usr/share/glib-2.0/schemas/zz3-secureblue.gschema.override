@@ -156,6 +156,7 @@ name='Open Terminal'
 
 [org.gnome.settings-daemon.plugins.power]
 sleep-inactive-ac-type='nothing'
+power-button-action='interactive'
 
 [org.gnome.shell]
 allow-extension-installation=true
@@ -206,6 +207,12 @@ pipeline='pipeline_default'
 [org.gnome.shell.extensions.blur-my-shell.window-list]
 brightness=0.59999999999999998
 sigma=30
+
+[org.gtk.Settings.FileChooser]
+sort-directories-first=true
+
+[org.gtk.gtk4.Settings.FileChooser]
+sort-directories-first=true
 
 [org.gnome.shell.extensions.burn-my-windows]
 active-profile='/home/jay/.config/burn-my-windows/profiles/default.conf'
@@ -321,20 +328,20 @@ y-tiles=20.0
 stick=true
 
 [org.gnome.shell.extensions.search-light]
-animation-speed=100.0
-background-color=(0.12941177189350128, 0.14901961386203766, 0.17647059261798859, 0.82666665315628052)
+border-color=(0.23, 0.23, 0.23, 1.0)
+background-color=(0.0, 0.0, 0.0, 0.8)
 blur-background=false
 blur-brightness=0.59999999999999998
 blur-sigma=30.0
-border-radius=1.1506849315068493
+border-radius=1.65
 border-thickness=0
 entry-font-size=1
 font-size=0
 monitor-count=1
 popup-at-cursor-monitor=true
 preferred-monitor=0
-scale-height=0.25
-scale-width=0.25
+scale-width=0.10
+scale-height=0.15
 shortcut-search=['<Super>space']
 show-panel-icon=false
 window-effect=0
@@ -389,6 +396,9 @@ locations=@av []
 [org.gnome.software]
 show-only-free-apps=true
 show-only-verified-apps=true
+allow-updates=false
+download-updates=false
+download-updates-notify=false
 
 [org.gnome.system.location]
 enabled=true
