@@ -1,8 +1,14 @@
+ARG IMAGE_NAME
+ARG IMAGE_REGISTRY
+
 FROM scratch AS ctx
 COPY build_files /build_files
 COPY system_files /system_files
 
 FROM ghcr.io/secureblue/silverblue-main-hardened:latest
+
+ARG IMAGE_NAME
+ARG IMAGE_REGISTRY
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
