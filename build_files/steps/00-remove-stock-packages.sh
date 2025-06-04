@@ -12,6 +12,7 @@ REMOVE_DEFAULT_PACKAGES=(
 	gnome-tweaks
 	httpd-filesystem
 	httpd-tools
+	malcontent-control
 )
 
 log "Remove some unnecessary default packages..."
