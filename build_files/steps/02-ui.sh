@@ -1,5 +1,5 @@
 # Enable Stem Darkening
-echo 'FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"' | sudo tee -a /etc/environment >/dev/null
+echo 'FREETYPE_PROPERTIES="cff:no-stem-darkening=0 autofitter:no-stem-darkening=0"' | tee -a /etc/environment >/dev/null
 
 log "Install WhiteSur icons and cursors systemwide"
 
