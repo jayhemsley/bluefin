@@ -57,7 +57,8 @@ LAYERED_PACKAGES=(
 
 log "Adding COPRs and installing layered packages..."
 
-# bluefin (for uupd)
+# ublue (for uupd and polkit rules)
+dnf copr enable ublue-os/packages
 
 # kcli
 dnf -y copr enable karmab/kcli
