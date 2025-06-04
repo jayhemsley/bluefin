@@ -1,4 +1,4 @@
-FONTSINSTALL_PACKAGES=(
+LAYERED_PACKAGES=(
 	android-tools
 	btrfs-assistant
 	edk2-ovmf
