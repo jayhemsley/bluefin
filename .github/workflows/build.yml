@@ -15,7 +15,7 @@ on:
 
 env:
   IMAGE_NAME: "${{ github.event.repository.name }}" # the name of the image produced by this build, matches repo names
-  IMAGE_DESC: "Standard Bluefin image with some customizations."
+  IMAGE_DESC: "Secureblue image using personal and Bluefin modifications."
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}" # do not edit
   ARTIFACTHUB_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4" # You should put your own image here so that you get a fancy profile image on https://artifacthub.io/!
 
@@ -98,8 +98,6 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci: false
-          build-args: |
-            REMOTE_FONTS_URL=${{ secrets.REMOTE_FONTS_URL }}
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.

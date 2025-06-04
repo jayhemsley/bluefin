@@ -1,0 +1,111 @@
+# vim: set ft=make :
+########################
+### custom.just
+### Some additional ones from secureblue etc
+########################
+## Standardized verbs
+# configure- = configure something that is pre-installed on the image
+# install-   = install something, no uninstall or configuration provided
+# setup-     = install something and also provide configuration and/or uninstallation options
+# toggle-    = turn something on/off, logic can be automatic or manual selection
+# fix-       = apply fix/patch/workaround for something
+# foo        = no verb is used for shortcuts or something deemed important enough to use a super memorable name
+
+# Setup General Environment
+[group('Personal')]
+setup-environment:
+  REPO="lassekongo83/adw-gtk3"
+  
+  echo "Fetching the latest release tarball URL from GitHub..."
+  
+  echo "Setting GNOME theme and color scheme..."
+
+  echo "Cleaning up the downloaded tarball and temporary files..."
+  rm -rf "$TMP_DIR"
+
+  echo "Applying flatpak overrides..."
+  sudo flatpak override --filesystem=xdg-data/themes
+  sudo flatpak mask org.gtk.Gtk3theme.adw-gtk3
+  sudo flatpak mask org.gtk.Gtk3theme.adw-gtk3-dark
+
+  ujust setup-brew-not-found
+  ujust update-firmware
+
+  echo "Environment has been setup."
+
+
+	if command -v flatpak &> /dev/null; then
+  ADW_GTK3_FLATPAKS=("org.gtk.Gtk3theme.adw-gtk3" "org.gtk.Gtk3theme.adw-gtk3-dark")
+
+  for flatpak_theme in "${ADW_GTK3_FLATPAKS[@]}"; do
+
+    if [[ -n "$(awk '/(^|\s)('${flatpak_theme}')($|\s)/' <<< "$(flatpak --user list --columns=application)")" ]]; then
+      echo "Uninstalling outdated flatpak theme '${flatpak_theme}'"
+      flatpak --user uninstall -y --delete-data "${flatpak_theme}"
+    else
+      echo "Flatpak theme '${flatpak_theme}' is already uninstalled"  
+    fi
+
+    if [[ -z "$(awk '/(^|\s)('${flatpak_theme}')($|\s)/' <<< "$(flatpak --user mask)")" ]]; then
+      echo "Masking outdated flatpak theme '${flatpak_theme}' so it doesn't get installed on updates"
+      flatpak --user mask "${flatpak_theme}"
+    else
+      echo "Flatpak theme '${flatpak_theme}' is already masked"  
+    fi
+
+  done
+
+  echo "Setting user override for adw-gtk3 theme to apply on flatpaks"
+  flatpak --user override --filesystem=xdg-data/themes
+fi
+
+
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ADW_GTK3_FLATPAKS=("org.gtk.Gtk3theme.adw-gtk3" "org.gtk.Gtk3theme.adw-gtk3-dark")
+
+for flatpak_theme in "${ADW_GTK3_FLATPAKS[@]}"; do
+
+  if [[ -n "$(awk '/(^|\s)('${flatpak_theme}')($|\s)/' <<< "$(flatpak --system list --columns=application)")" ]]; then
+    echo "Uninstalling outdated flatpak theme '${flatpak_theme}'"
+    flatpak --system uninstall -y --delete-data "${flatpak_theme}"
+  else
+    echo "Flatpak theme '${flatpak_theme}' is already uninstalled"  
+  fi
+
+  if [[ -z "$(awk '/(^|\s)('${flatpak_theme}')($|\s)/' <<< "$(flatpak --system mask)")" ]]; then
+    echo "Masking outdated flatpak theme '${flatpak_theme}' so it doesn't get installed on updates"
+    dbus-run-session flatpak --system mask "${flatpak_theme}"
+  else
+    echo "Flatpak theme '${flatpak_theme}' is already masked"  
+  fi
+  
+done
+
+echo "Setting system override for adw-gtk3 theme to apply on flatpaks"
+flatpak --system override --filesystem=xdg-data/themes
+
+
+- [Power Profiles Daemon](https://gitlab.freedesktop.org/upower/power-profiles-daemon) instead of [Tuned](https://tuned-project.org/)  
+   (because Power Profiles Daemon is simpler & more reliable than Tuned for power-management)
+
+- [Bluetooth Battery Meter](https://maniacx.github.io/Bluetooth-Battery-Meter/)
+- [Quick Settings Audio Devices Renamer](https://extensions.gnome.org/extension/6000/quick-settings-audio-devices-renamer/) (disabled by default)
+- [Quick Settings Audio Devices Hider](https://extensions.gnome.org/extension/5964/quick-settings-audio-devices-hider/) (disabled by default)
+
+Optional just config:
+- [Disable Bluetooth headset profile (HSP/HFP)](https://github.com/fiftydinar/gidro-os/wiki/6.-Gidro%E2%80%90OS-useful-commands-&-config#how-to-disable-bluetooth-headset-profile) (useful if you don't use mic from Bluetooth headphones, so you don't get surprisingly switched to lower audio quality headset profile)
+
+Settings applied by default:
+- Prefer `bootc` for updating the system
+- [ZSTD I/O scheduler for ZRAM & better ZRAM values suited for desktop](https://github.com/pop-os/default-settings/pull/163) (avoids OOM situations better & it also improves responsiveness under I/O load. Also thanks to [MaxPerfWiz](https://gitlab.com/cscs/maxperfwiz) & [@ahydronous](https://gist.github.com/ahydronous/7ceaa00df96ef99131600edd4c2c73f2) for some good research & values.)
+- [Enabled full kernel preemption](https://lwn.net/Articles/944686/) (increases system responsiveness with negligible cost of some throughput)
+
+- Set keyboard delay to be much lower, as Gnome defaults are too slow
+- Set Trivalent to:
+  - disable Network Sandbox (solves data persistence bug)
+  - disable search choice pop-up
+  - enable middle-click mouse scrolling
+  - use secureblue's selinux policy

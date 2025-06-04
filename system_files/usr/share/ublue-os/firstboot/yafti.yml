@@ -1,0 +1,97 @@
+title: Welcome to secureblue!
+properties:
+  mode: "run-once"
+screens:
+  first-screen:
+    source: yafti.screen.title
+    values:
+      title: "Welcome to secureblue!"
+      icon: "/path/to/icon"
+      description: |
+        This guided installer will help you get started with your new system.
+
+  can-we-harden-your-flatpaks:
+    source: yafti.screen.consent
+    values:
+      title: Flatpak hardening
+      description: |
+        This step will enable hardening for installed flatpaks.
+      actions:
+        - run: ujust harden-flatpak
+
+  can-we-modify-your-flatpaks:
+    source: yafti.screen.consent
+    values:
+      title: Flathub setup
+      description: |
+        This step will remove all Fedora and Flathub Flatpaks from your system and replace them with Flathub's Verified repository. It will not reinstall your flatpaks. It will also disable the system flatpaks in favor of user flatpaks.
+      actions:
+        - run: flatpak remote-delete --system --force fedora
+        - run: flatpak remote-delete --user --force fedora
+        - run: flatpak remote-delete --system --force flathub
+        - run: flatpak remote-delete --user --force flathub
+        - run: flatpak remove --system --noninteractive --all
+        - run: flatpak remote-add --if-not-exists --user --subset=verified_floss flathub-verified https://flathub.org/repo/flathub.flatpakrepo
+
+  applications:
+    source: yafti.screen.package
+    values:
+      title: Application Installer
+      show_terminal: true
+      package_manager: yafti.plugin.flatpak
+      package_manager_defaults:
+        user: true
+        system: false
+      groups:
+        Core GNOME Apps:
+          description: Core system applications for the GNOME desktop environment.
+          default: true
+          packages:
+            - Calculator: org.gnome.Calculator
+            - Calendar: org.gnome.Calendar
+            - Camera: org.gnome.Snapshot
+            - Clocks: org.gnome.clocks
+            - Document Viewer: org.gnome.Papers
+            - Disk Usage Analyzer: org.gnome.baobab
+            - Epiphany: org.gnome.Epiphany
+            - Image Viewer: org.gnome.Loupe
+            - Logs: org.gnome.Logs
+            - Text Editor: org.gnome.TextEditor
+            - Font Viewer: org.gnome.font-viewer
+
+        Preferred Apps:
+          description: Applications that are commonly installed.
+          default: true
+          packages:
+            - Amberol: io.bassi.Amberol
+            - BoxBuddy: io.github.dvlv.boxbuddyrs
+            - Clapper: com.github.rafostar.Clapper
+            - Easy Effects: com.github.wwmm.easyeffects
+            - Extension Manager: com.mattjakeman.ExtensionManager
+            - Handbrake: fr.handbrake.ghb
+            - Junction: re.sonny.Junction
+            - LibreOffice: org.libreoffice.LibreOffice
+            - LocalSend: org.localsend.localsend_app
+            - OBS: com.obsproject.Studio
+            - Pinta: com.github.PintaProject.Pinta
+            - VSCodium: com.vscodium.codium
+
+        System Apps:
+          description: System applications for all desktop environments.
+          default: true
+          packages:
+            - Firmware: org.gnome.Firmware
+            - Flatseal (Permission Manager): com.github.tchx84.Flatseal
+            - Mission Center: io.missioncenter.MissionCenter
+            - Warehouse (App Installer/Manager): io.github.flattool.Warehouse
+
+  final-screen:
+    source: yafti.screen.title
+    values:
+      title: "Yafti run complete!"
+      icon: "/path/to/icon"
+      links:
+        - "Post-install Instructions":
+            run: /usr/bin/xdg-open https://secureblue.dev/install#post-install
+      description: |
+        Complete your secureblue installation by following the Post-install Instructions.
