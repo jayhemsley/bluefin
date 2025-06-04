@@ -18,9 +18,10 @@ source /ctx/build_files/steps/04-final.sh
 source /ctx/build_files/steps/05-signing.sh
 
 rm -rf /tmp/*
-rm -rf /var/*
+find /var -mindepth 1 -maxdepth 1 ! -name 'cache' ! -name 'log' -exec rm -rf {} +
+rm -rf /var/cache/*
+rm -rf /var/log/*
 rm -rf /usr/etc
 rm -f /.nvimlog
 mkdir -p /tmp
-mkdir -p /var/tmp \
-&& chmod -R 1777 /var/tmp
+mkdir -p /var/tmp && chmod -R 1777 /var/tmp
