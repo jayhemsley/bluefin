@@ -1,6 +1,6 @@
 FROM scratch AS ctx
-COPY build_files /
-COPY system_files /
+COPY build_files /build_files
+COPY system_files /system_files
 
 FROM ghcr.io/secureblue/silverblue-main-hardened:latest
 
