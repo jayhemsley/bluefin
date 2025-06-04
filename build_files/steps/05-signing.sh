@@ -2,8 +2,8 @@ CONTAINER_DIR="/usr/etc/containers"
 ETC_CONTAINER_DIR="/etc/containers"
 IMAGE_REGISTRY_TITLE=$(echo "${IMAGE_REGISTRY}" | cut -d'/' -f2-)
 
-loc "Setting up container signing in policy.json for $IMAGE_NAME"
-loc "Registry to write: $IMAGE_REGISTRY"
+log "Setting up container signing in policy.json for $IMAGE_NAME"
+log "Registry to write: $IMAGE_REGISTRY"
 
 for dir in "$CONTAINER_DIR" "$ETC_CONTAINER_DIR"; do
     mkdir -p "$dir/registries.d"
@@ -59,4 +59,4 @@ done
 # cp ./registry-config.yaml "$ETC_CONTAINER_DIR/registries.d/$IMAGE_REGISTRY_TITLE.yaml"
 # rm ./registry-config.yaml
 
-loc "Container signing policy updated for $IMAGE_REGISTRY"
+log "Container signing policy updated for $IMAGE_REGISTRY"
