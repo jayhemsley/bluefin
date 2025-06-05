@@ -1,14 +1,20 @@
-# Signing
+#####
+## Sign the image.
+#####
+
+# Credit @Venefilyn (https://github.com/Venefilyn)
+# https://github.com/Venefilyn/veneos/blob/main/build_files/signing.sh
 mkdir -p /etc/containers
 mkdir -p /etc/pki/containers
 mkdir -p /etc/containers/registries.d/
 
-# TODO: Remove when things like uCore stops using /usr/etc for their policy.json
+# @todo: Remove when things like uCore stops using /usr/etc for their policy.json
 # Also remove all the other relations to /usr/etc
 if [ -f /usr/etc/containers/policy.json ]; then
     cp /usr/etc/containers/policy.json /etc/containers/policy.json
 fi
 
+# @todo figure out naming
 cat <<<"$(jq '.transports.docker |=. + {
    "ghcr.io/jayhemsley": [
     {

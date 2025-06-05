@@ -1,3 +1,7 @@
+#####
+## Remove default packages that are a part of Fedora.
+#####
+
 REMOVE_DEFAULT_PACKAGES=(
 	adw-gtk3-theme
 	fedora-bookmarks

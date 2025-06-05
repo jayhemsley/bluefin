@@ -2,4 +2,4 @@
 
 check-idle-power-draw:
     #!/usr/bin/bash
-    powerstat -a -r
+    run0 powerstat -a -r

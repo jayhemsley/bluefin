@@ -1,7 +1,10 @@
+#####
+## Add overrides and individual removals.
+#####
+
 # GSchema Overrides
 # By @bsherman (https://github.com/bsherman)
 # https://github.com/bsherman/bos/blob/main/desktop-changes.sh
-
 log "Generate default schemas"
 
 mkdir -p /tmp/bluefin-schema-test
@@ -12,9 +15,11 @@ glib-compile-schemas --strict /tmp/bluefin-schema-test
 log "Compiling gschema to include our overrides"
 glib-compile-schemas /usr/share/glib-2.0/schemas &>/dev/null
 
+# Self explanatory
 log "Remove avif thumbnailer, as HEIF thumbnailer already covers it"
 rm /usr/share/thumbnailers/avif.thumbnailer
 
+# Extra guards against using package managers
 log "Disable general usage of package managers."
 
 PACKAGE_MANAGERS=(
