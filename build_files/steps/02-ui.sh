@@ -31,6 +31,8 @@ FONTS_DIR="/usr/share/fonts"
 
 mkdir -p ${FONTS_DIR}/apple-color-emoji
 curl --retry 3 -Lo ${FONTS_DIR}/apple-color-emoji/AppleColorEmoji.ttf "https://github.com/samuelngs/apple-emoji-linux/releases/latest/download/AppleColorEmoji.ttf"
+rm -rf /usr/share/fonts/google-noto*
+rm -rf /usr/share/fonts/google-droid-sans-fonts
 
 DOWNLOAD_URL=$(curl --retry 3 https://api.github.com/repos/githubnext/monaspace/releases/latest | jq -r '.assets[] | select(.name| test(".*.zip$")).browser_download_url')
 curl --retry 3 -Lo /tmp/monaspace-font.zip "$DOWNLOAD_URL"
@@ -43,5 +45,7 @@ rm -rf /tmp/monaspace-font*
 curl --retry 3 -Lo ${FONTS_DIR}/fonts.tar.xz "https://linux.hemsley.dev/019733d3-970c-7168-978d-523401ccbe3a-fonts.tar.xz"
 tar -xvJf ${FONTS_DIR}/fonts.tar.xz -C ${FONTS_DIR}/
 rm ${FONTS_DIR}/fonts.tar.xz
+
+rm -rf /usr/share/fonts/microsoft/fonts
 
 fc-cache -fv

@@ -14,7 +14,6 @@ LAYERED_PACKAGES=(
 	gnome-shell-extension-just-perfection
 	hplip
 	ifuse
-	kcli
 	libcamera-gstreamer
 	libcamera-tools
 	libratbag-ratbagd
@@ -28,7 +27,6 @@ LAYERED_PACKAGES=(
 	nvtop
 	osbuild-selinux
 	p7zip-plugins
-	podman-bootc
 	podman-compose
 	podman-machine
 	podman-tui
@@ -49,8 +47,6 @@ LAYERED_PACKAGES=(
 	solaar
 	solaar-udev
 	tmux
-	ublue-polkit-rules
-	uupd
 	v4l-utils
 	virt-install
 	virt-manager
@@ -59,20 +55,17 @@ LAYERED_PACKAGES=(
 	wireguard-tools
 )
 
+log "Installing layered packages..."
+
 #Add COPRs
-log "Adding COPRs and installing layered packages..."
+dnf -y copr enable ublue-os/staging # gnome-shell-extension-search-light
+dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:ublue-os:staging"
 
-# ublue-os/packages: uupd and ublue-polkit-rules
-dnf -y copr enable ublue-os/packages
+dnf -y copr enable karmab/kcli # kcli
+dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:karmab:kcli"
 
-# karmab/kcli: kcli
-dnf -y copr enable karmab/kcli
-
-# librewolf
-curl -fsSL https://repo.librewolf.net/librewolf.repo | tee /etc/yum.repos.d/librewolf.repo
-
-# gmaglione/podman-bootc: podman-bootc
-dnf -y copr enable gmaglione/podman-bootc
+dnf -y copr enable gmaglione/podman-bootc # podman-bootc
+dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:gmaglione:podman-bootc"
 
 # terra and extras, keep it disabled as we'll use it for specific packages only
 dnf -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
@@ -86,6 +79,9 @@ done
 
 # Keep installations minimal
 dnf install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:karmab:kcli install kcli
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:gmaglione:podman-bootc install podman-bootc
 
 dnf5 -y upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-c358833c5d
 
@@ -101,7 +97,7 @@ dnf -y swap \
 
 dnf versionlock add switcheroo-control
 
-log "Layered packages installed."
+log "Layered packages installed, disabling all repos..."
 
 # Disable all repos
 for i in /etc/yum.repos.d/*.repo; do

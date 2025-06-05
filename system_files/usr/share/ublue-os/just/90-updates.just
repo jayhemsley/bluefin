@@ -5,11 +5,8 @@ alias upgrade := update
 # Update system, flatpaks, and containers all at once
 update:
     #!/usr/bin/bash
-    if systemctl cat -- uupd.timer &> /dev/null; then
-        SERVICE="uupd.service"
-    else
-        SERVICE="rpm-ostreed-automatic.service"
-    fi
+    SERVICE="rpm-ostreed-automatic.service"
+
     if systemctl is-active --quiet "$SERVICE"; then
         echo "automatic updates are currently running, use \`journalctl -fexu $SERVICE\` to see logs"
         exit 1
@@ -17,6 +14,7 @@ update:
 
     # rpm-ostree used due to bootc upgrade not supporting local layered packages
     rpm-ostree upgrade
+
     # Updates system Flatpaks
     if flatpak remotes | grep -q system; then
         flatpak update -y
@@ -26,9 +24,6 @@ update:
     if flatpak remotes | grep -q user; then
         flatpak update --user -y
     fi
-
-    # Update distroboxes
-    distrobox upgrade -a
 
     # Guard Brew if the user does not own brew/doesn't exist
     if [[ -O /var/home/linuxbrew/.linuxbrew/bin/brew ]]; then
@@ -45,8 +40,6 @@ toggle-updates ACTION="prompt":
     CURRENT_STATE="Disabled"
     if systemctl is-enabled -q rpm-ostreed-automatic.timer; then
         CURRENT_STATE="Enabled"
-    elif systemctl is-enabled -q uupd.timer; then
-        CURRENT_STATE="Enabled"
     fi
     OPTION={{ ACTION }}
     if [ "$OPTION" == "prompt" ]; then
@@ -60,11 +53,7 @@ toggle-updates ACTION="prompt":
         echo "  Use 'disable' to Disable automatic updates."
         exit 0
     fi
-    if systemctl cat -- uupd.timer &> /dev/null; then
-        TIMER="uupd.timer"
-    else
-        TIMER="rpm-ostreed-automatic.timer"
-    fi
+    TIMER="rpm-ostreed-automatic.timer"
     if [ "${OPTION,,}" == "enable" ]; then
         run0 systemctl enable "$TIMER"
     elif [ "${OPTION,,}" == "disable" ]; then

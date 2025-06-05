@@ -11,7 +11,7 @@ REMOVE_DEFAULT_PACKAGES=(
 	gnome-shell-extension-launch-new-instance
 	gnome-shell-extension-places-menu
 	gnome-shell-extension-window-list
-	gnome-software
+	gnome-software # If a new app is really needed on a per-device basis just use Warehouse.
 	gnome-system-monitor
 	gnome-tweaks
 	httpd-filesystem
