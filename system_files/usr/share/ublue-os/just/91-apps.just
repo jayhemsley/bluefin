@@ -28,7 +28,7 @@ setup-brew-not-found ACTION="":
 
     if [[ "${OPTION,,}" =~ ^enable ]]; then
         $BREW_BINARY tap homebrew/command-not-found
-        pkexec tee /etc/profile.d/brew-command-not-found.sh > /dev/null <<EOF
+        run0 tee /etc/profile.d/brew-command-not-found.sh > /dev/null <<EOF
     # Check for interactive bash or zsh and that we haven't already been sourced
     if [[ -d /home/linuxbrew/.linuxbrew && \$- == *i* && BREW_COMMAND_NOT_FOUND != 1 ]] ; then
       HB_CNF_HANDLER="${HOMEBREW_REPOSITORY}/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
@@ -41,7 +41,7 @@ setup-brew-not-found ACTION="":
 
         # Only attempt to symlink if the handler exists
         if [[ -f "$FISH_HANDLER" ]]; then
-          pkexec ln -sf "$FISH_HANDLER" /etc/fish/conf.d/brew-cnf-handler.fish
+          run0 ln -sf "$FISH_HANDLER" /etc/fish/conf.d/brew-cnf-handler.fish
         fi
 
         echo "Brew command-not-found has been ${b}${green}enabled${n}"
@@ -52,7 +52,7 @@ setup-brew-not-found ACTION="":
         FILES_TO_BE_REMOVED=()
         [ -f /etc/profile.d/brew-command-not-found.sh ] && FILES_TO_BE_REMOVED+=("/etc/profile.d/brew-command-not-found.sh")
         [ -f /etc/fish/conf.d/brew-command-not-found.fish ] && FILES_TO_BE_REMOVED+=("/etc/fish/conf.d/brew-command-not-found.fish")
-        pkexec rm -f "${FILES_TO_BE_REMOVED[@]}"
+        run0 rm -f "${FILES_TO_BE_REMOVED[@]}"
       echo "Brew command-not-found has been ${b}${red}disabled${n}"
     fi
 
