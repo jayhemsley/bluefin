@@ -62,13 +62,15 @@ log "Installing layered packages..."
 
 #Add COPRs
 dnf -y copr enable ublue-os/staging # gnome-shell-extension-search-light and gnome-shell-extension-power-profile-switcher
-dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:ublue-os:staging"
+dnf -y copr disable ublue-os/staging
 
-dnf -y copr enable karmab/kcli # kcli
-dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:karmab:kcli"
+ # kcli
+dnf -y copr enable karmab/kcli
+dnf -y copr disable karmab/kcli
 
-dnf -y copr enable gmaglione/podman-bootc # podman-bootc
-dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:gmaglione:podman-bootc"
+ # podman-bootc
+dnf -y copr enable gmaglione/podman-bootc
+dnf -y copr disable gmaglione/podman-bootc
 
 # terra and extras, keep it disabled as we'll use it for specific packages only
 dnf -y install --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
