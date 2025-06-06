@@ -3,7 +3,6 @@
 #####
 
 REMOVE_DEFAULT_PACKAGES=(
-	adw-gtk3-theme
 	fedora-bookmarks
 	gnome-classic-session
 	gnome-initial-setup

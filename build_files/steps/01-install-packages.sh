@@ -13,8 +13,6 @@ LAYERED_PACKAGES=(
 	gnome-shell-extension-caffeine
 	gnome-shell-extension-dash-to-dock
 	gnome-shell-extension-just-perfection
-	gnome-shell-extension-power-profile-switcher
-	gnome-shell-extension-search-light
 	hplip
 	ifuse
 	libcamera-gstreamer
@@ -88,8 +86,8 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:karmab:kcli install kcli
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:gmaglione:podman-bootc install podman-bootc
 
 # Gnome Extensions (DNF)
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-power-profile-switcher
+# dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
+# dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-power-profile-switcher
 
 dnf5 -y upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-c358833c5d
 
