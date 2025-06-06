@@ -86,7 +86,6 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:gmaglione:podman-bootc instal
 
 # Gnome Extensions (DNF)
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-power-profile-switcher
 
 dnf5 -y upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-c358833c5d
 

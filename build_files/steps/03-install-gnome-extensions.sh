@@ -48,7 +48,7 @@ fi
 GNOME_VER=$(gnome-shell --version | sed 's/[^0-9]*\([0-9]*\).*/\1/')
 log "Gnome version: ${GNOME_VER}"
 
-for INSTALL_EXT in "${INSTALL_GNOME_EXTENSIONS[@]}"; do
+for INSTALL_EXT in "${INSTALL_GNOME_EXTENSIONS_PKIDS[@]}"; do
 		# PK ID extension config fallback if specified
 		URL_QUERY=$(curl -sf "https://extensions.gnome.org/extension-info/?pk=${INSTALL_EXT}")
 		PK_EXT=$(log "${URL_QUERY}" | jq -r '.["pk"]' 2>/dev/null)
