@@ -6,21 +6,21 @@
 # https://github.com/fiftydinar/gidro-os/blob/main/modules/gnome-extensions-unverified/gnome-extensions-unverified.sh
 
 INSTALL_GNOME_EXTENSIONS=(
-	Alphabetical App Grid
-	Bluetooth Battery Meter
-	Brightness control using ddcutil 
-	Burn My Windows
-	Color Picker
-	Compiz alike magic lamp effect 
-	Emoji Copy
-	GNOME Fuzzy App Search
-	Lock Keys
-	Quick Settings Audio Devices Hider
-	Quick Settings Audio Devices Renamer
-	PIP on Top
-	Space Bar
-	Tiling Shell
-	Wallpaper Slideshow
+	AlphabeticalAppGrid@stuarthayhurst
+	Bluetooth-Battery-Meter@maniacx.github.com
+	display-brightness-ddcutil@themightydeity.github.com
+	burn-my-windows@schneegans.github.com
+	color-picker@tuberry
+	compiz-alike-magic-lamp-effect@hermes83.github.com
+	emoji-copy@felipeftn
+	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com
+	lockkeys@vaina.lt
+	quicksettings-audio-devices-hider@marcinjahn.com
+	quicksettings-audio-devices-renamer@marcinjahn.com
+	pip-on-top@rafostar.github.com
+	space-bar@luchrioh
+	tilingshell@ferrarodomenico.com
+	azwallpaper@azwallpaper.gitlab.com
 )
 
 if [[ ${#INSTALL_GNOME_EXTENSIONS[@]} -lt 1 ]]; then
