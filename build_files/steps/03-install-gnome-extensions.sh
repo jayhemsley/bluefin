@@ -51,17 +51,17 @@ log "Gnome version: ${GNOME_VER}"
 for INSTALL_EXT in "${INSTALL_GNOME_EXTENSIONS_PKIDS[@]}"; do
 		# PK ID extension config fallback if specified
 		URL_QUERY=$(curl -sf "https://extensions.gnome.org/extension-info/?pk=${INSTALL_EXT}")
-		PK_EXT=$(log "${URL_QUERY}" | jq -r '.["pk"]' 2>/dev/null)
+		PK_EXT=$(echo "${URL_QUERY}" | jq -r '.["pk"]' 2>/dev/null)
 		if [[ -z "${PK_EXT}" ]] || [[ "${PK_EXT}" == "null" ]]; then
 			log "ERROR: Extension with PK ID '${INSTALL_EXT}' does not exist in https://extensions.gnome.org/ website"
 			log "       Please assure that you typed the PK ID correctly,"
 			log "       and that it exists in Gnome extensions website"
 			exit 1
 		fi
-		EXT_UUID=$(log "${URL_QUERY}" | jq -r '.["uuid"]')
-		EXT_NAME=$(log "${URL_QUERY}" | jq -r '.["name"]')
+		EXT_UUID=$(echo "${URL_QUERY}" | jq -r '.["uuid"]')
+		EXT_NAME=$(echo "${URL_QUERY}" | jq -r '.["name"]')
 		# Gets latest extension version for latest available Gnome version
-		SUITABLE_VERSION=$(log "${URL_QUERY}" | jq -r '.shell_version_map | to_entries | max_by(.key | tonumber) | .value.version')
+		SUITABLE_VERSION=$(echo "${URL_QUERY}" | jq -r '.shell_version_map | to_entries | max_by(.key | tonumber) | .value.version')
 
     # Removes every @ symbol from UUID, since extension URL doesn't contain @ symbol
     URL="https://extensions.gnome.org/extension-data/${EXT_UUID//@/}.v${SUITABLE_VERSION}.shell-extension.zip"
