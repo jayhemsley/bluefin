@@ -18,7 +18,6 @@ LAYERED_PACKAGES=(
 	libcamera-gstreamer
 	libcamera-tools
 	libratbag-ratbagd
-	librewolf
 	libva-utils
 	libvirt
 	libvirt-nss
@@ -86,8 +85,8 @@ dnf -y --enablerepo copr:copr.fedorainfracloud.org:karmab:kcli install kcli
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:gmaglione:podman-bootc install podman-bootc
 
 # Gnome Extensions (DNF)
-# dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
-# dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-power-profile-switcher
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-power-profile-switcher
 
 dnf5 -y upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-c358833c5d
 
