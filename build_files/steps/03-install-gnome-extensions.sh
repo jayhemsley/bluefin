@@ -53,7 +53,7 @@ for INSTALL_EXT in "${INSTALL_GNOME_EXTENSIONS[@]}"; do
       # Replaces whitespaces with %20 for install entries which contain extension name, since URLs can't contain whitespace      
       WHITESPACE_HTML="${INSTALL_EXT// /%20}"
       URL_QUERY=$(curl -sf "https://extensions.gnome.org/extension-query/?search=${WHITESPACE_HTML}")
-      QUERIED_EXT=$(echo "${URL_QUERY}" | jq ".extensions[] | select(.name == \"${INSTALL_EXT}\")")
+      QUERIED_EXT=$(echo "${URL_QUERY}" | jq -r '.extensions[] | select(.uuid | test("'${INSTALL_EXT}'"; "i"))')
       if [[ -z "${QUERIED_EXT}" ]] || [[ "${QUERIED_EXT}" == "null" ]]; then
         log "ERROR: Extension '${INSTALL_EXT}' does not exist in https://extensions.gnome.org/ website"
         log "       Extension name is case-sensitive, so be sure that you typed it correctly,"
