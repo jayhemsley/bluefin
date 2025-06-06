@@ -12,10 +12,11 @@ rsync -rvK --no-times /ctx/system_files/ /
 
 source /ctx/build_files/steps/00-remove-stock-packages.sh
 source /ctx/build_files/steps/01-install-packages.sh
-source /ctx/build_files/steps/02-ui.sh
-source /ctx/build_files/steps/03-overrides.sh
-source /ctx/build_files/steps/04-final.sh
-source /ctx/build_files/steps/05-signing.sh
+source /ctx/build_files/steps/02-install-ui.sh
+source /ctx/build_files/steps/03-install-gnome-extensions.sh
+source /ctx/build_files/steps/04-overrides.sh
+source /ctx/build_files/steps/05-final.sh
+source /ctx/build_files/steps/06-signing.sh
 
 rm -rf /tmp/*
 find /var -mindepth 1 -maxdepth 1 ! -name 'cache' ! -name 'log' -exec rm -rf {} +

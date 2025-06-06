@@ -3,6 +3,7 @@
 #####
 
 LAYERED_PACKAGES=(
+	adw-gtk3-theme
 	android-tools
 	btrfs-assistant
 	edk2-ovmf
@@ -12,6 +13,8 @@ LAYERED_PACKAGES=(
 	gnome-shell-extension-caffeine
 	gnome-shell-extension-dash-to-dock
 	gnome-shell-extension-just-perfection
+	gnome-shell-extension-power-profile-switcher
+	gnome-shell-extension-search-light
 	hplip
 	ifuse
 	libcamera-gstreamer
@@ -58,7 +61,7 @@ LAYERED_PACKAGES=(
 log "Installing layered packages..."
 
 #Add COPRs
-dnf -y copr enable ublue-os/staging # gnome-shell-extension-search-light
+dnf -y copr enable ublue-os/staging # gnome-shell-extension-search-light and gnome-shell-extension-power-profile-switcher
 dnf config-manager --set-disabled "copr:copr.fedorainfracloud.org:ublue-os:staging"
 
 dnf -y copr enable karmab/kcli # kcli
@@ -79,9 +82,12 @@ done
 
 # Keep installations minimal
 dnf install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
-dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:karmab:kcli install kcli
 dnf -y --enablerepo copr:copr.fedorainfracloud.org:gmaglione:podman-bootc install podman-bootc
+
+# Gnome Extensions (DNF)
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-search-light
+dnf -y --enablerepo copr:copr.fedorainfracloud.org:ublue-os:staging install gnome-shell-extension-power-profile-switcher
 
 dnf5 -y upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-c358833c5d
 

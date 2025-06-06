@@ -76,6 +76,13 @@ screens:
             - Pinta: com.github.PintaProject.Pinta
             - VSCodium: com.vscodium.codium
 
+        UI Apps:
+          description: Packages to customize Flatpak apps.
+          default: true
+          packages:
+            - adw-gtk3 GTK Theme: org.gtk.Gtk3theme.adw-gtk3
+            - adw-gtk3 Dark GTK Theme: org.gtk.Gtk3theme.adw-gtk3-dark
+
         System Apps:
           description: System applications for all desktop environments.
           default: true
