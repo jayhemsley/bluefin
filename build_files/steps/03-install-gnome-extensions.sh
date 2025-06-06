@@ -5,26 +5,25 @@
 # Credit @fiftydinar (https://github.com/fiftydinar)
 # https://github.com/fiftydinar/gidro-os/blob/main/modules/gnome-extensions-unverified/gnome-extensions-unverified.sh
 
-INSTALL_GNOME_EXTENSIONS_PKIDS=(
-	# Use PKIDs
-	4269 # Alphabetical App Grid
-	6670 # Bluetooth Battery Meter
-	2645 # Brightness Control Using ddcutil
-	4679 # Burn My Windows
-	3396 # Color Picker
-	3740 # Compiz Alike Magic Lamp Effect
-	6242 # Emoji Copy
-	3956 # GNOME Fuzzy App Search
-	36 # Lock Keys
-	5964 # Quick Settings Audio Devices Hider
-	6000 # Quick Settings Audio Devices Renamer
-	4691 # PIP on Top
-	5090 # Space Bar
-	7065 # Tiling Shell
-	6281 # Wallpaper Slideshow
+INSTALL_GNOME_EXTENSIONS=(
+	Alphabetical App Grid
+	Bluetooth Battery Meter
+	Brightness control using ddcutil 
+	Burn My Windows
+	Color Picker
+	Compiz alike magic lamp effect 
+	Emoji Copy
+	GNOME Fuzzy App Search
+	Lock Keys
+	Quick Settings Audio Devices Hider
+	Quick Settings Audio Devices Renamer
+	PIP on Top
+	Space Bar
+	Tiling Shell
+	Wallpaper Slideshow
 )
 
-if [[ ${#INSTALL_GNOME_EXTENSIONS_PKIDS[@]} -lt 1 ]]; then
+if [[ ${#INSTALL_GNOME_EXTENSIONS[@]} -lt 1 ]]; then
   log "ERROR: You did not specify the extension to install in module recipe file"
   exit 1
 fi
@@ -48,21 +47,45 @@ fi
 GNOME_VER=$(gnome-shell --version | sed 's/[^0-9]*\([0-9]*\).*/\1/')
 log "Gnome version: ${GNOME_VER}"
 
-for INSTALL_EXT in "${INSTALL_GNOME_EXTENSIONS_PKIDS[@]}"; do
-		# PK ID extension config fallback if specified
-		URL_QUERY=$(curl -sf "https://extensions.gnome.org/extension-info/?pk=${INSTALL_EXT}")
-		PK_EXT=$(echo "${URL_QUERY}" | jq -r '.["pk"]' 2>/dev/null)
-		if [[ -z "${PK_EXT}" ]] || [[ "${PK_EXT}" == "null" ]]; then
-			log "ERROR: Extension with PK ID '${INSTALL_EXT}' does not exist in https://extensions.gnome.org/ website"
-			log "       Please assure that you typed the PK ID correctly,"
-			log "       and that it exists in Gnome extensions website"
-			exit 1
-		fi
-		EXT_UUID=$(echo "${URL_QUERY}" | jq -r '.["uuid"]')
-		EXT_NAME=$(echo "${URL_QUERY}" | jq -r '.["name"]')
-		# Gets latest extension version for latest available Gnome version
-		SUITABLE_VERSION=$(echo "${URL_QUERY}" | jq -r '.shell_version_map | to_entries | max_by(.key | tonumber) | .value.version')
-
+for INSTALL_EXT in "${INSTALL_GNOME_EXTENSIONS[@]}"; do
+    if [[ ! "${INSTALL_EXT}" =~ ^[0-9]+$ ]]; then
+      # Literal-name extension config
+      # Replaces whitespaces with %20 for install entries which contain extension name, since URLs can't contain whitespace      
+      WHITESPACE_HTML="${INSTALL_EXT// /%20}"
+      URL_QUERY=$(curl -sf "https://extensions.gnome.org/extension-query/?search=${WHITESPACE_HTML}")
+      QUERIED_EXT=$(log "${URL_QUERY}" | jq ".extensions[] | select(.name == \"${INSTALL_EXT}\")")
+      if [[ -z "${QUERIED_EXT}" ]] || [[ "${QUERIED_EXT}" == "null" ]]; then
+        log "ERROR: Extension '${INSTALL_EXT}' does not exist in https://extensions.gnome.org/ website"
+        log "       Extension name is case-sensitive, so be sure that you typed it correctly,"
+        log "       including the correct uppercase & lowercase characters"
+        exit 1
+      fi
+      readarray -t EXT_UUID < <(log "${QUERIED_EXT}" | jq -r '.["uuid"]')
+      readarray -t EXT_NAME < <(log "${QUERIED_EXT}" | jq -r '.["name"]')
+      if [[ ${#EXT_UUID[@]} -gt 1 ]] || [[ ${#EXT_NAME[@]} -gt 1 ]]; then
+        log "ERROR: Multiple compatible Gnome extensions with the same name are found, which this module cannot select"
+        log "       To solve this problem, please use PK ID as a module input entry instead of the extension name"
+        log "       You can get PK ID from the extension URL, like from Blur my Shell's 3193 PK ID example below:"
+        log "       https://extensions.gnome.org/extension/3193/blur-my-shell/"
+        exit 1
+      fi        
+      # Gets latest extension version for latest available Gnome version
+      SUITABLE_VERSION=$(log "${QUERIED_EXT}" | jq -r '.shell_version_map | to_entries | max_by(.key | tonumber) | .value.version')
+    else
+      # PK ID extension config fallback if specified
+      URL_QUERY=$(curl -sf "https://extensions.gnome.org/extension-info/?pk=${INSTALL_EXT}")
+      PK_EXT=$(log "${URL_QUERY}" | jq -r '.["pk"]' 2>/dev/null)
+      if [[ -z "${PK_EXT}" ]] || [[ "${PK_EXT}" == "null" ]]; then
+        log "ERROR: Extension with PK ID '${INSTALL_EXT}' does not exist in https://extensions.gnome.org/ website"
+        log "       Please assure that you typed the PK ID correctly,"
+        log "       and that it exists in Gnome extensions website"
+        exit 1
+      fi
+      EXT_UUID=$(log "${URL_QUERY}" | jq -r '.["uuid"]')
+      EXT_NAME=$(log "${URL_QUERY}" | jq -r '.["name"]')
+      # Gets latest extension version for latest available Gnome version
+      SUITABLE_VERSION=$(log "${URL_QUERY}" | jq -r '.shell_version_map | to_entries | max_by(.key | tonumber) | .value.version')
+    fi  
     # Removes every @ symbol from UUID, since extension URL doesn't contain @ symbol
     URL="https://extensions.gnome.org/extension-data/${EXT_UUID//@/}.v${SUITABLE_VERSION}.shell-extension.zip"
     TMP_DIR="/tmp/${EXT_UUID}"
