@@ -13,7 +13,7 @@ INSTALL_GNOME_EXTENSIONS=(
 	compiz-alike-magic-lamp-effect@hermes83.github.com
 	emoji-copy@felipeftn
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com
-  gnome-ui-tune@itstime.tech
+  4158 # GNOME UI Improvements
 	lockkeys@vaina.lt
 	pip-on-top@rafostar.github.com
 	quicksettings-audio-devices-hider@marcinjahn.com
