@@ -7,6 +7,8 @@ LAYERED_PACKAGES=(
 	android-tools
 	btrfs-assistant
 	edk2-ovmf
+	firefox
+	# librewolf - when the --enable-replace-malloc flag gets merged
 	fzf
 	gnome-shell-extension-auto-move-windows
 	gnome-shell-extension-blur-my-shell

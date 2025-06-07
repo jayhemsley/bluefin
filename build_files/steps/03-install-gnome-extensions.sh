@@ -1,28 +1,24 @@
-#!/bin/bash
 #####
 ## Install GNOME Extensions
 #####
-log() {
-	echo "=== $* ==="
-}
 
 # Credit @fiftydinar (https://github.com/fiftydinar)
 # https://github.com/fiftydinar/gidro-os/blob/main/modules/gnome-extensions-unverified/gnome-extensions-unverified.sh
 
 INSTALL_GNOME_EXTENSIONS=(
 	AlphabeticalAppGrid@stuarthayhurst
-	Bluetooth-Battery-Meter@maniacx.github.com
 	display-brightness-ddcutil@themightydeity.github.com
 	burn-my-windows@schneegans.github.com
 	color-picker@tuberry
 	compiz-alike-magic-lamp-effect@hermes83.github.com
 	emoji-copy@felipeftn
 	gnome-fuzzy-app-search@gnome-shell-extensions.Czarlie.gitlab.com
+  gnome-ui-tune@itstime.tech
 	lockkeys@vaina.lt
+	pip-on-top@rafostar.github.com
 	quicksettings-audio-devices-hider@marcinjahn.com
 	quicksettings-audio-devices-renamer@marcinjahn.com
-	pip-on-top@rafostar.github.com
-	space-bar@luchrioh
+  reboottouefi@ubaygd.com
 	tilingshell@ferrarodomenico.com
 	azwallpaper@azwallpaper.gitlab.com
 )
