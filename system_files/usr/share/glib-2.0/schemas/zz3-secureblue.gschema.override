@@ -19,8 +19,8 @@ automatic-timezone=false
 
 [org.gnome.desktop.interface]
 accent-color='blue'
-clock-show-seconds=true
-clock-show-weekday=true
+clock-show-seconds=false
+clock-show-weekday=false
 color-scheme='prefer-dark'
 cursor-theme='WhiteSur-cursors'
 document-font-name='SF Pro Text 11'
